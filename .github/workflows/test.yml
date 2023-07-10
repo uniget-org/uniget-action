@@ -1,0 +1,38 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+
+jobs:
+
+  test:
+    name: Test
+    runs-on: ubuntu-22.04
+    steps:
+
+    - name: Install
+      uses: uniget-org/uniget-action@main
+
+    - name: Test docker-setup
+      run: |
+        which docker-setup
+        docker-setup --version
+
+    - name: Install
+      uses: uniget-org/uniget-action@main
+      with:
+        prefix: helper
+        tools: gojq yq
+
+    - name: Check installed tools
+      run: |
+        docker-setup --prefix=helper install --installed --plan
+
+    - name: Test tools
+      run: |
+        helper/usr/local/bin/gojq --version
+        helper/usr/local/bin/jq --version
+        helper/usr/local/bin/yq --version

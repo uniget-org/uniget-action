@@ -1,0 +1,102 @@
+name: 'uniget'
+
+description: 'Install tools from the container ecosystem'
+branding:
+  icon: 'package'
+  color: 'blue'
+
+inputs:
+  version:
+    description: 'Version of uniget to use'
+    required: false
+    default: 'latest'
+  path:
+    description: 'Path to install uniget into'
+    required: false
+    default: '/usr/local/bin'
+  tools:
+    description: 'List of tools to install (space separated)'
+    required: false
+  prefix:
+    description: 'Directory prefix for tool installation'
+    required: false
+    default: ''
+  skip-conflicts:
+    description: 'Skip conflicting tools'
+    required: false
+    default: 'true'
+  plan:
+    description: 'Plan to install'
+    required: false
+    default: 'false'
+  log-level:
+    description: 'Log level'
+    required: false
+    default: 'info'
+
+runs:
+  using: 'composite'
+  steps:
+
+  - name: Install uniget
+    shell: bash
+    run: |
+      echo "Installing uniget"
+      echo "Requested version ${{ inputs.version }}"
+
+      release_url="https://github.com/uniget-org/cli/releases/latest/download"
+      if test "${{ inputs.version }}" != "latest"; then
+          release_url="https://github.com/uniget-org/cli/releases/download/v${{ inputs.version }}"
+      fi
+      asset_name="uniget_Linux_$(uname -m).tar.gz"
+
+      echo "Using URL ${release_url}/${asset_name}"
+      curl --url "${release_url}/${asset_name}" \
+          --silent \
+          --location \
+      | tar --extract \
+            --gzip \
+            --directory ${{ inputs.path }} \
+            uniget
+
+      ${{ inputs.path }}/uniget --version
+
+  - name: Update metadata
+    shell: bash
+    run: |
+      if test -z "${{inputs.tools }}"; then
+          echo "No tools requested. Metadata update skipped"
+          exit 0
+      fi
+      echo "Updating metadata"
+      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} update
+
+  - name: List tools
+    shell: bash
+    run: |
+      echo "Available tools:"
+      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} list
+
+  - name: Plan installation
+    shell: bash
+    run: |
+      if test -z "${{ inputs.tools }}"; then
+          echo "No tools requested"
+          exit 0
+      fi
+      if test "${{ inputs.plan }}" != "true"; then
+          echo "Not planning installation"
+          exit 0
+      fi
+      echo "Installing tools (${{ inputs.tools }})"
+      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} install --skip-conflicts=${{ inputs.skip-conflicts }} ${{ inputs.tools }} --plan
+
+  - name: Install tools
+    shell: bash
+    run: |
+      if test -z "${{ inputs.tools }}"; then
+          echo "No tools requested"
+          exit 0
+      fi
+      echo "Installing tools (${{ inputs.tools }})"
+      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} install --skip-conflicts=${{ inputs.skip-conflicts }} ${{ inputs.tools }}
