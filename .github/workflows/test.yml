@@ -16,10 +16,10 @@ jobs:
     - name: Install
       uses: uniget-org/uniget-action@main
 
-    - name: Test docker-setup
+    - name: Test uniget
       run: |
-        which docker-setup
-        docker-setup --version
+        which uniget
+        uniget --version
 
     - name: Install
       uses: uniget-org/uniget-action@main
@@ -29,7 +29,7 @@ jobs:
 
     - name: Check installed tools
       run: |
-        docker-setup --prefix=helper install --installed --plan
+        uniget --prefix=helper install --installed --plan
 
     - name: Test tools
       run: |

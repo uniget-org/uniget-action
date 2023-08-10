@@ -48,7 +48,7 @@ Install only some tools:
       list: "docker yq"
 ```
 
-Install using a specific version of `docker-setup`:
+Install using a specific version of `uniget`:
 
 ```yaml
 
