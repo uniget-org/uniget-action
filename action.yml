@@ -9,7 +9,7 @@ inputs:
   version:
     description: 'Version of uniget to use'
     required: false
-    default: '0.6.1'
+    default: 'latest'
   path:
     description: 'Path to install uniget into'
     required: false
