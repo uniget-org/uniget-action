@@ -71,12 +71,6 @@ runs:
       echo "Updating metadata"
       ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} update
 
-  - name: List tools
-    shell: bash
-    run: |
-      echo "Available tools:"
-      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} list
-
   - name: Plan installation
     shell: bash
     run: |
