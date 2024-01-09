@@ -21,6 +21,10 @@ inputs:
     description: 'Directory prefix for tool installation'
     required: false
     default: ''
+  target:
+    description: 'Subdirectory relative to prefix for tool installation'
+    required: false
+    default: 'usr/local'
   skip-conflicts:
     description: 'Skip conflicting tools'
     required: false
@@ -69,7 +73,7 @@ runs:
           exit 0
       fi
       echo "Updating metadata"
-      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} update
+      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} --target=${{ inputs.target }} update
 
   - name: Plan installation
     shell: bash
@@ -83,7 +87,7 @@ runs:
           exit 0
       fi
       echo "Installing tools (${{ inputs.tools }})"
-      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} install --skip-conflicts=${{ inputs.skip-conflicts }} ${{ inputs.tools }} --plan
+      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} --target=${{ inputs.target }} install --skip-conflicts=${{ inputs.skip-conflicts }} ${{ inputs.tools }} --plan
 
   - name: Install tools
     shell: bash
@@ -93,4 +97,4 @@ runs:
           exit 0
       fi
       echo "Installing tools (${{ inputs.tools }})"
-      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} install --skip-conflicts=${{ inputs.skip-conflicts }} ${{ inputs.tools }}
+      ${{ inputs.path }}/uniget --log-level=${{ inputs.log-level }} --prefix=${{ inputs.prefix }} --target=${{ inputs.target }} install --skip-conflicts=${{ inputs.skip-conflicts }} ${{ inputs.tools }}

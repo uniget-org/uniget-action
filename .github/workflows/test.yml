@@ -25,11 +25,12 @@ jobs:
       uses: uniget-org/uniget-action@v1
       with:
         prefix: helper
+        target: ""
         tools: gojq yq
 
     - name: Check installed tools
       run: |
-        uniget --prefix=helper install --installed --plan
+        uniget --prefix=helper --target=usr/local install --installed --plan
 
     - name: Test tools
       run: |
