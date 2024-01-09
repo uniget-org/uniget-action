@@ -20,6 +20,10 @@ Space separated list of tools to install. If this is not empty, the metadata wil
 
 Directory under which to install tools. Defaults to an empty string.
 
+### `target`
+
+Subdirectory of `prefix` under which to install tools. Defaults to `usr/local`.
+
 ### `skip-conflicts`
 
 Skip tools that cause a conflict. Defaults to `true`.
