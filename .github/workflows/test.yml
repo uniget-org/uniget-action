@@ -25,7 +25,6 @@ jobs:
       uses: uniget-org/uniget-action@v1
       with:
         prefix: helper
-        target: ""
         tools: gojq yq
 
     - name: Check installed tools
@@ -37,3 +36,33 @@ jobs:
         helper/usr/local/bin/gojq --version
         helper/usr/local/bin/jq --version
         helper/usr/local/bin/yq --version
+
+  test2:
+    name: Test
+    runs-on: ubuntu-22.04
+    steps:
+
+    - name: Install
+      uses: uniget-org/uniget-action@v1
+
+    - name: Test uniget
+      run: |
+        which uniget
+        uniget --version
+
+    - name: Install
+      uses: uniget-org/uniget-action@v1
+      with:
+        prefix: helper
+        target: ""
+        tools: gojq yq
+
+    - name: Check installed tools
+      run: |
+        uniget --prefix=helper install --installed --plan
+
+    - name: Test tools
+      run: |
+        helper/bin/gojq --version
+        helper/bin/jq --version
+        helper/bin/yq --version
