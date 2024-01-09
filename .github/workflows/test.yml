@@ -9,7 +9,7 @@ on:
 jobs:
 
   test:
-    name: Test
+    name: Test with default target
     runs-on: ubuntu-22.04
     steps:
 
@@ -38,7 +38,7 @@ jobs:
         helper/usr/local/bin/yq --version
 
   test2:
-    name: Test
+    name: Test with custom target
     runs-on: ubuntu-22.04
     steps:
 
