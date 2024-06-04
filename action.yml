@@ -54,6 +54,9 @@ runs:
       fi
       asset_name="uniget_Linux_$(uname -m).tar.gz"
 
+      echo "Creating target path ${{ inputs.path }}"
+      mkdir -p "${{ inputs.path }}"
+
       echo "Using URL ${release_url}/${asset_name}"
       curl --url "${release_url}/${asset_name}" \
           --silent \
