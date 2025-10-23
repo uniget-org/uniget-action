@@ -48,7 +48,7 @@ runs:
       echo "Installing uniget"
       echo "Requested version ${{ inputs.version }}"
 
-      release_url="ttps://gitlab.com/uniget-org/cli/-/releases/permalink/latest/downloads"
+      release_url="https://gitlab.com/uniget-org/cli/-/releases/permalink/latest/downloads"
       if test "${{ inputs.version }}" != "latest"; then
           release_url="https://gitlab.com/uniget-org/cli/-/releases/v${{ inputs.version }}/downloads"
       fi
